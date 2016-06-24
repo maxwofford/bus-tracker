@@ -11,17 +11,18 @@ const io = socketIo(server)
 
 const busses = []
 
-app.get('/', (req, res) => { 
-  res.send('hello')
-})
+app.use(express.static(__dirname + '/public'))
 
 io.on('connection', socket => {
-  const bus = {
-    socket,
-    lat: null,
-    long: null
-  }
-  busses.push(bus)
+
+  socket.on('busConnection', () => {
+    const bus = {
+      socket,
+      lat: null,
+      long: null
+    }
+    busses.push(bus)
+  })
 
   socket.on('update', data => {
     for (let i = 0; i < busses.length; i++) {
