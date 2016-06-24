@@ -11,11 +11,12 @@ function initMap() {
 const socket = io('/')
 let busMarkers = []
 socket.on('tick', busses => {
+  busMarkers.forEach(busMarker => {
+    busMarker.setMap(null)
+  })
   busMarkers = busses.map(bus => {
-    console.log(bus)
     let marker = new google.maps.Marker({
-      positon: {lat: bus.lat, lng: bus.long},
-      map
+      position: {lat: bus.lat, lng: bus.long}
     })
     marker.setMap(map)
     return marker
